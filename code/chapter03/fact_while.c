@@ -1,3 +1,4 @@
+// gcc -Og -S fact_while.c
 long fact_while(long n)
 {
 	long 	result	= 1;
