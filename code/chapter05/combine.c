@@ -72,3 +72,48 @@ void combine1(vec_ptr v, data_t *dest)
 	}
 
 }
+
+/* Move call to vec_length out of loop */
+void combine1(vec_ptr v, data_t *dest)
+{
+	long	i;
+	long 	length = vec_length(v);
+
+	*dest	= IDENT;
+	for(i = 0; i < length; i++) {
+		data_t	val;
+		get_vec_element(v, i, &val);
+		*dest = *dest OP val;
+	}
+
+}
+
+data_t	*get_vec_start(vec_ptr v)
+{
+	return v->data;
+}
+
+void combine3(vec_ptr v, data_t *dest)
+{
+	long	i;
+	long	length = vec_length(v);
+	data_t	*data = get_vec_start(v);
+
+	*dest	= IDENT;
+	for(i = 0; i < length; i++) {
+		*dest = *dest OP data[i];
+	}
+}
+
+void combine4(vec_ptr v, data_t *dest)
+{
+	long	i;
+	long	length = vec_length(v);
+	data_t	*data = get_vec_start(v);
+	data_t	acc = IDENT;
+
+	for(i = 0; i < length; i++) {
+		acc = acc OP data[i];
+	}
+	*dest = acc;
+}
